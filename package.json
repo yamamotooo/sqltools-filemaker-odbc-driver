@@ -9,8 +9,13 @@
   "publisher": "local",
   "icon": "icons/extension.png",
   "license": "MIT",
-  "repository": {},
-  "bugs": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamamotooo/sqltools-filemaker-odbc-driver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yamamotooo/sqltools-filemaker-odbc-driver/issues"
+  },
   "scripts": {
     "postinstall": "node scripts/rebuild-odbc-iodbc.js",
     "vscode:prepublish": "npm run compile",
