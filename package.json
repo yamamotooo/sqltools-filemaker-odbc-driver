@@ -1,0 +1,54 @@
+{
+  "name": "sqltools-filemaker-odbc-driver",
+  "displayName": "FileMaker (ODBC)",
+  "description": "SQLTools driver to connect to FileMaker Pro/Server databases via ODBC",
+  "version": "0.0.3",
+  "engines": {
+    "vscode": "^1.61.0"
+  },
+  "publisher": "local",
+  "icon": "icons/extension.png",
+  "license": "MIT",
+  "repository": {},
+  "bugs": {},
+  "scripts": {
+    "postinstall": "node scripts/rebuild-odbc-iodbc.js",
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package --allow-missing-repository --target darwin-arm64 -o .",
+    "package:win": "node scripts/package-win32.js"
+  },
+  "keywords": [
+    "filemaker",
+    "odbc",
+    "sqltools-driver"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Snippets",
+    "Formatters",
+    "Other"
+  ],
+  "extensionDependencies": [
+    "mtxr.sqltools"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onLanguage:sql"
+  ],
+  "main": "./out/extension.js",
+  "dependencies": {
+    "@sqltools/base-driver": "latest",
+    "@sqltools/types": "latest",
+    "odbc": "^2.5.0",
+    "uuid": "^7.0.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.5.5",
+    "@types/node": "^14.0.9",
+    "@types/vscode": "^1.42.0",
+    "@vscode/vsce": "^2.15.0",
+    "typescript": "^5.9.2"
+  }
+}

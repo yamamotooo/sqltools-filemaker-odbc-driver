@@ -1,0 +1,13 @@
+{
+  "ui:order": [
+    "connectionMethod",
+    "dsn",
+    "connectionString",
+    "database",
+    "username",
+    "password",
+    "connectionTimeout",
+    "additionalParameters"
+  ],
+  "password": { "ui:widget": "password" }
+}

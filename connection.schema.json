@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "username": {
+      "title": "FileMaker Account Name",
+      "type": "string",
+      "minLength": 1
+    },
+    "password": {
+      "title": "Password",
+      "type": "string"
+    }
+  },
+  "properties": {
+    "connectionMethod": {
+      "title": "Connect using",
+      "type": "string",
+      "minLength": 1,
+      "enum": ["DSN", "Connection String"],
+      "default": "DSN"
+    },
+    "connectionTimeout": {
+      "title": "Connection Timeout (seconds)",
+      "type": "integer",
+      "minimum": 0,
+      "default": 15
+    },
+    "additionalParameters": {
+      "title": "Additional ODBC parameters",
+      "type": "string",
+      "description": "Appended to the connection string as-is, e.g. UseLongVarchar=Yes;WideAPI=Yes;MultiByteEncoding=UTF-8 (useful when table/field names or data are in Japanese)"
+    }
+  },
+  "required": ["connectionMethod"],
+  "dependencies": {
+    "connectionMethod": {
+      "oneOf": [
+        {
+          "properties": {
+            "connectionMethod": { "enum": ["DSN"] },
+            "dsn": {
+              "title": "DSN (ODBC Data Source Name)",
+              "type": "string",
+              "minLength": 1,
+              "description": "The name you gave this data source in ODBC Manager / ODBC Data Source Administrator"
+            },
+            "database": {
+              "title": "FileMaker file name (optional)",
+              "type": "string",
+              "description": "Only needed if the DSN itself doesn't already point to a specific file"
+            },
+            "username": { "$ref": "#/definitions/username" },
+            "password": { "$ref": "#/definitions/password" }
+          },
+          "required": ["dsn", "username"]
+        },
+        {
+          "properties": {
+            "connectionMethod": { "enum": ["Connection String"] },
+            "connectionString": {
+              "title": "Full ODBC Connection String",
+              "type": "string",
+              "minLength": 1,
+              "description": "e.g. Driver=/Library/ODBC/FileMaker ODBC.bundle/Contents/MacOS/fmodbc.so;Server=localhost;Database=MyFile;UID=Admin;PWD=secret"
+            }
+          },
+          "required": ["connectionString"]
+        }
+      ]
+    }
+  }
+}
