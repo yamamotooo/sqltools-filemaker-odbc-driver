@@ -10,3 +10,9 @@ src/**
 **/*.ai
 **/build-tmp-napi-v8/**
 .cache/**
+.claude/**
+.github/**
+**/node_modules/**/build/Release/.deps/**
+**/node_modules/**/build/**/*.mk
+**/node_modules/**/build/Makefile
+**/node_modules/**/build/config.gypi
