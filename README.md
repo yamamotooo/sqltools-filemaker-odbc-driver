@@ -61,6 +61,16 @@ macOS の ODBC Manager で作成した DSN にはこのキーが最初から入�
 - **`ALTER TABLE ... RENAME TO 新名` / `RENAME COLUMN 旧 TO 新` が使えます**(日本語名も可。FileMaker Pro 2025 で確認)。ただし FileMaker の仕様として、`RENAME TO` で変わるのは**テーブルオカレンス名だけで、物理テーブル名は変わりません**。一方 `RENAME COLUMN` はフィールド名を実際に変更します。改名後の SQL は新しいオカレンス名でのみ参照でき、旧名を `FROM` に使うとエラーになります。このドライバーのサイドバーは物理テーブル名(`BaseTableName`)で一覧するため、SQL で改名したオカレンスとは表示名がずれる点に注意してください(物理テーブル名を変えたい場合は FileMaker の [データベースの管理] で行います)。
 - **FileMaker Pro を同一 Mac で 2 つ同時に起動しない**でください(例: FileMaker Pro 22 と 26)。xDBC のポート 2399 を取り合い、片方の listener が孤児プロセスとして残ると、正しいインスタンスが起動していても `(802): Unable to open file` で接続できなくなります。なお 802 は認証失敗・ファイル未共有・ファイル未オープンでも返る汎用エラーです。
 
+## Claude Code 用スキル (filemaker-sql)
+
+[.claude/skills/filemaker-sql/SKILL.md](.claude/skills/filemaker-sql/SKILL.md) に、Claude Code から FileMaker の SQL 方言 (FSQL) を扱うためのスキルを同梱しています。このリポジトリを Claude Code で開くと自動的に認識され、FileMaker と SQL が絡む依頼(スキーマ調査、クエリー作成、DML/DDL の実行)の際に次の内容に沿って動作します。
+
+- **FSQL チートシート**: `LIMIT` の代わりに `FETCH FIRST`、`INFORMATION_SCHEMA` の代わりに `FileMaker_BaseTables` / `FileMaker_BaseTableFields`、識別子のダブルクォーテーション必須、`ALTER TABLE` の構文一覧など、標準 SQL との相違点のまとめ
+- **安全プロトコル**: UPDATE / DELETE の前に同じ WHERE 句で SELECT して件数を確認する、WHERE なしの破壊的操作は実行前に影響範囲を提示する、といった運用ルール
+- **公式リファレンスへのリンク**: Claris の SQL リファレンス (markdown 版) の URL 一覧。詳細が必要なときにスキルが自動で参照します
+
+他のプロジェクトでも使いたい場合は、`~/.claude/skills/filemaker-sql/` にコピーするとユーザーレベルのスキルとして全プロジェクトで有効になります。
+
 ## はじめに(開発向け)
 
 ```bash
